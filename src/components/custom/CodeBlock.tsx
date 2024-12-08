@@ -4,7 +4,7 @@ import { useColorModeValue } from "../ui/color-mode";
 
 export const CodeBlock = ({ children }: { children: ReactNode }) => {
   return (
-    <Box w="full">
+    <Box w="full" maxH="500px" overflowY="auto">
       <Code
         variant="surface"
         colorPalette={useColorModeValue("orange", "teal")}

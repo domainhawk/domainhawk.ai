@@ -2,6 +2,8 @@ import { Heading, HStack, VStack } from "@chakra-ui/react";
 import { ColorModeButton } from "./components/ui/color-mode";
 import { Link, Outlet } from "react-router-dom";
 import { useColorModeValue } from "./components/ui/color-mode";
+import { Helmet } from "react-helmet-async";
+
 const Header = () => {
   return (
     <HStack
@@ -20,6 +22,9 @@ const Header = () => {
 export default function Layout() {
   return (
     <VStack w="full">
+      <Helmet>
+        <title>DomainHawk.ai</title>
+      </Helmet>
       <Header />
       <Outlet />
     </VStack>
