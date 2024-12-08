@@ -1,7 +1,4 @@
 import { CodeBlock } from "@/components/custom/CodeBlock";
-import { AbsoluteCenter, Button, Group, VStack } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import { useGetDomainDetails } from "../api/domains";
 import {
   DialogActionTrigger,
   DialogBody,
@@ -13,6 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { AbsoluteCenter, Button, VStack } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
+import { useGetDomainDetails } from "../api/domains";
 
 const SetupWatchDialog = () => {
   return (
