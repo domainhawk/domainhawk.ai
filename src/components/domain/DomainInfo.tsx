@@ -15,10 +15,10 @@ const DomainInfo = ({
   return (
     <>
       {/* <CodeBlock>{JSON.stringify(whois, null, 2)}</CodeBlock> */}
-      <Card.Root flexDirection="row" overflow="hidden" w="full">
+      <Card.Root flexDirection="column" overflow="hidden" w="full">
         <Image
           objectFit="cover"
-          maxW="170px"
+          maxH="170px"
           src={`https://unsplash.it/1920/1080?random&ts=${Math.random()}`}
         />
         <Box w={"full"}>
@@ -28,7 +28,7 @@ const DomainInfo = ({
               {formatDate(whois.created_at)})
             </Card.Title>
             <Card.Description as={"div"}>
-              <AccordionRoot collapsible multiple defaultValue={["details"]}>
+              <AccordionRoot collapsible defaultValue={["details"]}>
                 <AccordionItem value="details">
                   <AccordionItemTrigger>Details</AccordionItemTrigger>
                   <AccordionItemContent>
