@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/custom/CodeBlock";
+import DomainInfo from "@/components/domain/DomainInfo";
 import {
   DialogActionTrigger,
   DialogBody,
@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { AbsoluteCenter, Button, VStack } from "@chakra-ui/react";
+import { AbsoluteCenter, Button, Spinner, VStack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { useGetDomainDetails } from "../api/domains";
 
@@ -44,12 +44,20 @@ const SetupWatchDialog = () => {
 
 export default function Domain() {
   const { uuid } = useParams();
-  const { data } = useGetDomainDetails(uuid!);
+  const { data, isPending } = useGetDomainDetails(uuid!);
+
+  if (isPending) {
+    return (
+      <AbsoluteCenter>
+        <Spinner size={"xl"} />
+      </AbsoluteCenter>
+    );
+  }
 
   return (
     <AbsoluteCenter px={4}>
-      <VStack w="full" gap={10}>
-        <CodeBlock>{JSON.stringify(data, null, 2)}</CodeBlock>
+      <VStack w="full" pt={10} gap={10} minW={["300px", "800px"]}>
+        <DomainInfo whois={data} />
         <SetupWatchDialog />
       </VStack>
     </AbsoluteCenter>
