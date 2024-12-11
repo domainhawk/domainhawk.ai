@@ -1,36 +1,56 @@
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "@/components/ui/menu";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Heading, HStack, IconButton, Spinner } from "@chakra-ui/react";
+import {
+  Heading,
+  HStack,
+  IconButton,
+  Separator,
+  Spinner,
+} from "@chakra-ui/react";
 import { PiUserCircleDuotone } from "react-icons/pi";
-import { TbLogout } from "react-icons/tb";
+import { TbEye, TbLogout } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { ColorModeButton } from "./ui/color-mode";
+import { BiChevronDown } from "react-icons/bi";
 
-const AccountControls = ({ user }: { user: any }) => {
+const UserMenu = ({ user }: { user: any }) => {
   const navigate = useNavigate();
   const { logout } = useAuth0();
   return (
+    <MenuRoot>
+      <MenuTrigger asChild>
+        <IconButton variant="ghost" aria-label="View watched domains">
+          <PiUserCircleDuotone />
+          <Heading size="xs">{user.nickname}</Heading>
+          <BiChevronDown />
+        </IconButton>
+      </MenuTrigger>
+      <MenuContent>
+        <MenuItem
+          value="watched-domains"
+          onClick={() => navigate("/watched")}
+          cursor={"pointer"}
+        >
+          <TbEye /> Watched domains..
+        </MenuItem>
+        <Separator />
+        <MenuItem value="logout" onClick={() => logout()} cursor={"pointer"}>
+          <TbLogout /> Logout
+        </MenuItem>
+      </MenuContent>
+    </MenuRoot>
+  );
+};
+
+const AccountControls = ({ user }: { user: any }) => {
+  return (
     <>
-      <IconButton
-        variant="ghost"
-        aria-label="View watched domains"
-        onClick={() => navigate("/watched")}
-      >
-        <PiUserCircleDuotone />
-        <Heading size="xs">{user.nickname}</Heading>
-      </IconButton>
-      <IconButton
-        variant="ghost"
-        aria-label="Logout"
-        onClick={() =>
-          logout({
-            openUrl: (url) => {
-              window.location.href = url;
-            },
-          })
-        }
-      >
-        <TbLogout />
-      </IconButton>
+      <UserMenu user={user} />
       <ColorModeButton />
     </>
   );

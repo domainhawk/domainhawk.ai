@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import instance from ".";
 
 export type DomainCheckResponse = {
@@ -16,6 +16,11 @@ export const domainCheck = async (
 
 const watchDomain = async (uuid: string) => {
   const res = await instance.put(`/domain/watch/${uuid}`);
+  return res.data;
+};
+
+const deleteWatchedDomain = async (uuid: string) => {
+  const res = await instance.delete(`/domain/watched/${uuid}`);
   return res.data;
 };
 
@@ -50,3 +55,14 @@ export const useGetWatchedDomains = () =>
     queryKey: ["watched-domains"],
     queryFn: () => getWatchedDomains(),
   });
+
+export const useDeleteWatchedDomain = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (uuid: string) => deleteWatchedDomain(uuid),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["watched-domains"] });
+    },
+  });
+};

@@ -60,8 +60,6 @@ export const SetupWatchDialog = ({
     });
   };
 
-  // console.log({ isWatched });
-
   if (watchedDomainsPending) {
     return null;
   }

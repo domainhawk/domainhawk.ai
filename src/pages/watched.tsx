@@ -1,52 +1,79 @@
-import { useGetWatchedDomains } from "@/api/domains";
+import { useDeleteWatchedDomain, useGetWatchedDomains } from "@/api/domains";
+import { Button } from "@/components/ui/button";
 import { DomainSearchData } from "@/types";
 import { formatDate } from "@/utils/date";
-import { Button, Group, Table } from "@chakra-ui/react";
+import { Group, Table, Text, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { CreateWatchRequestForm } from "./home";
 
 const WatchedTable = ({ response }: { response: DomainSearchData }) => {
-  console.log(response);
   const navigate = useNavigate();
+  const { mutateAsync: deleteWatchedDomain, isPending: isDeleting } =
+    useDeleteWatchedDomain();
+
+  const handleDelete = async (uuid: string) => {
+    await deleteWatchedDomain(uuid);
+  };
+
+  const hasNoDomains = response.length === 0;
+
   return (
-    <Table.Root striped maxW={"6xl"}>
-      <Table.Header>
-        <Table.Row>
-          <Table.Cell>Domain</Table.Cell>
-          <Table.Cell>Created</Table.Cell>
-          <Table.Cell>Changed</Table.Cell>
-          <Table.Cell>Expires</Table.Cell>
-          <Table.Cell>Status</Table.Cell>
-          <Table.Cell>Actions</Table.Cell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {response.map((domain) => (
-          <Table.Row>
-            <Table.Cell>{domain.domain_search.domain_name}</Table.Cell>
-            <Table.Cell>{formatDate(domain.created_at)}</Table.Cell>
-            <Table.Cell>{formatDate(domain.updated_at)}</Table.Cell>
-            <Table.Cell>
-              {formatDate(domain.domain_search.json_response.expires)}
-            </Table.Cell>
-            <Table.Cell>{domain.domain_search.json_response.status}</Table.Cell>
-            <Table.Cell>
-              <Group attached>
-                <Button
-                  size={"sm"}
-                  variant="outline"
-                  onClick={() => navigate(`/domain/${domain.domain_search.id}`)}
-                >
-                  View
-                </Button>
-                <Button size={"sm"} variant="outline">
-                  Delete
-                </Button>
-              </Group>
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table.Root>
+    <VStack gap={4} alignItems="flex-start">
+      <CreateWatchRequestForm />
+      {hasNoDomains ? (
+        <Text>No domains watched</Text>
+      ) : (
+        <Table.Root striped maxW={"6xl"}>
+          <Table.Header>
+            <Table.Row>
+              <Table.Cell>Domain</Table.Cell>
+              <Table.Cell>Created</Table.Cell>
+              <Table.Cell>Changed</Table.Cell>
+              <Table.Cell>Expires</Table.Cell>
+              <Table.Cell>Status</Table.Cell>
+              <Table.Cell>Actions</Table.Cell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {response.map((domain) => (
+              <Table.Row>
+                <Table.Cell>{domain.domain_search.domain_name}</Table.Cell>
+                <Table.Cell>{formatDate(domain.created_at)}</Table.Cell>
+                <Table.Cell>{formatDate(domain.updated_at)}</Table.Cell>
+                <Table.Cell>
+                  {formatDate(domain.domain_search.json_response.expires)}
+                </Table.Cell>
+                <Table.Cell>
+                  {domain.domain_search.json_response.status}
+                </Table.Cell>
+                <Table.Cell>
+                  <Group attached>
+                    <Button
+                      size={"sm"}
+                      variant="outline"
+                      onClick={() =>
+                        navigate(`/domain/${domain.domain_search.id}`)
+                      }
+                    >
+                      View
+                    </Button>
+                    <Button
+                      size={"sm"}
+                      variant="outline"
+                      loadingText="Deleting"
+                      loading={isDeleting}
+                      onClick={() => handleDelete(domain.id)}
+                    >
+                      Delete
+                    </Button>
+                  </Group>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      )}
+    </VStack>
   );
 };
 

@@ -50,7 +50,7 @@ const InputControl = ({
   );
 };
 
-function Home() {
+export const CreateWatchRequestForm = () => {
   const { mutateAsync: domainCheck, isPending } = useDomainCheck();
   const navigate = useNavigate();
   const onSubmit = async (values: any) => {
@@ -64,20 +64,26 @@ function Home() {
       onSubmit={onSubmit}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <AbsoluteCenter>
-            <HStack minW={["90%", "450px"]}>
-              <InputControl
-                isLoading={isPending}
-                name="domainName"
-                label="Watch a domain name"
-                placeholder="example.com"
-                buttonText={isPending ? "Checking..." : "Check domain"}
-              />
-            </HStack>
-          </AbsoluteCenter>
+          <HStack minW={["90%", "450px"]}>
+            <InputControl
+              isLoading={isPending}
+              name="domainName"
+              label="Watch a domain name"
+              placeholder="example.com"
+              buttonText={isPending ? "Checking..." : "Check domain"}
+            />
+          </HStack>
         </form>
       )}
     />
+  );
+};
+
+function Home() {
+  return (
+    <AbsoluteCenter>
+      <CreateWatchRequestForm />
+    </AbsoluteCenter>
   );
 }
 
