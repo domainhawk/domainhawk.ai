@@ -9,6 +9,7 @@ const Header = () => {
     <HStack
       w="full"
       px={4}
+      minH={"40px"}
       justifyContent={"space-between"}
       bgColor={useColorModeValue("gray.100", "gray.900")}
     >
