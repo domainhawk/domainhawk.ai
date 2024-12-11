@@ -8,7 +8,19 @@ export type DomainCheckResponse = {
 export const domainCheck = async (
   domainName: string
 ): Promise<DomainCheckResponse> => {
-  const res = await instance.get(`/domain-check/${domainName}`);
+  const res = await instance.post(`/domain/check`, {
+    domainName,
+  });
+  return res.data;
+};
+
+const watchDomain = async (uuid: string) => {
+  const res = await instance.put(`/domain/watch/${uuid}`);
+  return res.data;
+};
+
+export const getWatchedDomains = async () => {
+  const res = await instance.get(`/domain/watched`);
   return res.data;
 };
 
@@ -18,7 +30,7 @@ export const useDomainCheck = () =>
   });
 
 const getDomainDetails = async (uuid: string) => {
-  const res = await instance.get(`/domain-details/${uuid}`);
+  const res = await instance.get(`/domain/details/${uuid}`);
   return res.data;
 };
 
@@ -26,4 +38,15 @@ export const useGetDomainDetails = (uuid: string) =>
   useQuery({
     queryKey: ["domain-details", uuid],
     queryFn: () => getDomainDetails(uuid),
+  });
+
+export const useWatchDomain = () =>
+  useMutation({
+    mutationFn: (uuid: string) => watchDomain(uuid),
+  });
+
+export const useGetWatchedDomains = () =>
+  useQuery({
+    queryKey: ["watched-domains"],
+    queryFn: () => getWatchedDomains(),
   });

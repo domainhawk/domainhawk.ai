@@ -4,50 +4,14 @@ import {
   AccordionItemContent,
   AccordionItemTrigger,
 } from "../ui/accordion";
-interface Contact {
-  handle: string | null;
-  type: string | null;
-  name: string;
-  organization: string;
-  email: string;
-  address: string;
-  zipcode: string;
-  city: string;
-  state: string;
-  country: string;
-  phone: string;
-  fax: string;
-  created: string | null;
-  changed: string | null;
-}
+import { DomainSearchEntry } from "@/types";
+import { formatDate } from "@/utils/date";
 
-interface Registrar {
-  id: string;
-  name: string;
-  email: string;
-  url: string;
-  phone: string;
-}
-
-export interface WhoisResponse {
-  name: string;
-  created: string;
-  changed: string;
-  expires: string;
-  dnssec: string | null;
-  registered: boolean;
-  status: string;
-  nameservers: string[];
-  contacts: {
-    owner: Contact[];
-    admin: Contact[];
-    tech: Contact[];
-  };
-  registrar: Registrar;
-  throttled: boolean;
-}
-
-const DomainInfo = ({ whois }: { whois: WhoisResponse }) => {
+const DomainInfo = ({
+  whois,
+}: {
+  whois: DomainSearchEntry["domain_search"];
+}) => {
   console.log({ whois });
   return (
     <>
@@ -61,8 +25,11 @@ const DomainInfo = ({ whois }: { whois: WhoisResponse }) => {
         />
         <Box w={"full"}>
           <Card.Body>
-            <Card.Title mb="2">{whois.name}</Card.Title>
-            <Card.Description>
+            <Card.Title mb="2">
+              {whois.json_response.name} (created at{" "}
+              {formatDate(whois.created_at)})
+            </Card.Title>
+            <Card.Description as={"div"}>
               <AccordionRoot
                 collapsible
                 multiple
@@ -76,25 +43,25 @@ const DomainInfo = ({ whois }: { whois: WhoisResponse }) => {
                         <Table.Row>
                           <Table.Cell>Created</Table.Cell>
                           <Table.Cell>
-                            {whois.created ?? "Not available"}
+                            {whois.json_response.created ?? "Not available"}
                           </Table.Cell>
                         </Table.Row>
                         <Table.Row>
                           <Table.Cell>Changed</Table.Cell>
                           <Table.Cell>
-                            {whois.changed ?? "Not available"}
+                            {whois.json_response.changed ?? "Not available"}
                           </Table.Cell>
                         </Table.Row>
                         <Table.Row>
                           <Table.Cell>Expires</Table.Cell>
                           <Table.Cell>
-                            {whois.expires ?? "Not available"}
+                            {whois.json_response.expires ?? "Not available"}
                           </Table.Cell>
                         </Table.Row>
                         <Table.Row>
                           <Table.Cell>Status</Table.Cell>
                           <Table.Cell>
-                            {whois.status ?? "Not available"}
+                            {whois.json_response.status ?? "Not available"}
                           </Table.Cell>
                         </Table.Row>
                       </Table.Body>
@@ -110,7 +77,7 @@ const DomainInfo = ({ whois }: { whois: WhoisResponse }) => {
                         <Table.Row>
                           <Table.Cell>Nameservers </Table.Cell>
                           <Table.Cell>
-                            {whois.nameservers.join(", ")}
+                            {whois.json_response.nameservers.join(", ")}
                           </Table.Cell>
                         </Table.Row>
                       </Table.Body>
@@ -126,34 +93,39 @@ const DomainInfo = ({ whois }: { whois: WhoisResponse }) => {
                         <Table.Row>
                           <Table.Cell>Name</Table.Cell>
                           <Table.Cell>
-                            {whois.registrar.name ?? "Not available"}
+                            {whois.json_response.registrar.name ??
+                              "Not available"}
                           </Table.Cell>
                         </Table.Row>
 
                         <Table.Row>
                           <Table.Cell>Id</Table.Cell>
                           <Table.Cell>
-                            {whois.registrar.id ?? "Not available"}
+                            {whois.json_response.registrar.id ??
+                              "Not available"}
                           </Table.Cell>
                         </Table.Row>
                         <Table.Row>
                           <Table.Cell>Email</Table.Cell>
                           <Table.Cell>
-                            {whois.registrar.email ?? "Not available"}
+                            {whois.json_response.registrar.email ??
+                              "Not available"}
                           </Table.Cell>
                         </Table.Row>
 
                         <Table.Row>
                           <Table.Cell>Url </Table.Cell>
                           <Table.Cell>
-                            {whois.registrar.url ?? "Not available"}
+                            {whois.json_response.registrar.url ??
+                              "Not available"}
                           </Table.Cell>
                         </Table.Row>
 
                         <Table.Row>
                           <Table.Cell>Phone</Table.Cell>
                           <Table.Cell>
-                            {whois.registrar.phone ?? "Not available"}
+                            {whois.json_response.registrar.phone ??
+                              "Not available"}
                           </Table.Cell>
                         </Table.Row>
                       </Table.Body>
