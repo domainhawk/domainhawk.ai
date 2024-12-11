@@ -2,20 +2,21 @@ import { Heading, HStack, VStack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { Link, Outlet } from "react-router-dom";
 import AccountMenu from "./components/AccountMenu";
-import { ColorModeButton, useColorModeValue } from "./components/ui/color-mode";
+import { useColorModeValue } from "./components/ui/color-mode";
 
 const Header = () => {
   return (
     <HStack
       w="full"
-      justifyContent={"flex-end"}
+      px={4}
+      justifyContent={"space-between"}
       bgColor={useColorModeValue("gray.100", "gray.900")}
     >
       <Link to="/">
         <Heading size="md">DomainHawk.ai</Heading>
       </Link>
+
       <AccountMenu />
-      <ColorModeButton />
     </HStack>
   );
 };

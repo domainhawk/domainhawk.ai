@@ -2,11 +2,13 @@ import { useGetWatchedDomains } from "@/api/domains";
 import { DomainSearchData } from "@/types";
 import { formatDate } from "@/utils/date";
 import { Button, Group, Table } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const WatchedTable = ({ response }: { response: DomainSearchData }) => {
   console.log(response);
+  const navigate = useNavigate();
   return (
-    <Table.Root striped>
+    <Table.Root striped maxW={"6xl"}>
       <Table.Header>
         <Table.Row>
           <Table.Cell>Domain</Table.Cell>
@@ -29,7 +31,11 @@ const WatchedTable = ({ response }: { response: DomainSearchData }) => {
             <Table.Cell>{domain.domain_search.json_response.status}</Table.Cell>
             <Table.Cell>
               <Group attached>
-                <Button size={"sm"} variant="outline">
+                <Button
+                  size={"sm"}
+                  variant="outline"
+                  onClick={() => navigate(`/domain/${domain.domain_search.id}`)}
+                >
                   View
                 </Button>
                 <Button size={"sm"} variant="outline">

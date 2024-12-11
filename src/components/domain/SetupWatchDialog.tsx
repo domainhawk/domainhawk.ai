@@ -1,4 +1,4 @@
-import { DialogActionTrigger } from "@chakra-ui/react";
+import { DialogActionTrigger, Text, VStack } from "@chakra-ui/react";
 
 import {
   DialogBody,
@@ -11,10 +11,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useWatchDomain } from "@/api/domains";
-import { Button } from "../ui/button";
+import { useGetWatchedDomains, useWatchDomain } from "@/api/domains";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 import { toaster } from "../ui/toaster";
+import { Tooltip } from "../ui/tooltip";
 
 export const SetupWatchDialog = ({
   uuid,
@@ -24,25 +26,57 @@ export const SetupWatchDialog = ({
   domainName: string;
 }) => {
   const [open, setOpen] = useState(false);
+  const { data, isPending: watchedDomainsPending } = useGetWatchedDomains();
 
-  console.log({ uuid, domainName });
+  const isWatched = data?.some(
+    (domain: any) => domain.domain_search.id === uuid
+  );
+
+  const navigate = useNavigate();
   const { mutateAsync: watchDomain, isPending } = useWatchDomain();
+
+  const viewAll = () => {
+    setOpen(false);
+    navigate("/watched");
+  };
 
   const handleWatchDomain = async () => {
     await watchDomain(uuid);
+    setOpen(false);
     toaster.create({
       title: "Watch created",
-      description: `You're now watching ${domainName} for expiration`,
+      description: (
+        <VStack alignItems={"flex-start"} gap={1}>
+          <Text>
+            You're now watching <b>{domainName}</b> for expiration
+          </Text>
+          <Button variant="solid" size={"xs"} onClick={viewAll}>
+            All watched domains
+          </Button>
+        </VStack>
+      ),
       type: "success",
+      duration: 1500,
     });
-    setOpen(false);
   };
+
+  // console.log({ isWatched });
+
+  if (watchedDomainsPending) {
+    return null;
+  }
 
   return (
     <DialogRoot lazyMount open={open} onOpenChange={(e) => setOpen(e.open)}>
-      <DialogTrigger asChild>
-        <Button>Watch this domain</Button>
-      </DialogTrigger>
+      <Tooltip
+        content={"Already watching this domain"}
+        disabled={!isWatched}
+        openDelay={150}
+      >
+        <DialogTrigger asChild disabled={isWatched}>
+          <Button>Watch this domain</Button>
+        </DialogTrigger>
+      </Tooltip>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add {domainName} to your watchlist</DialogTitle>

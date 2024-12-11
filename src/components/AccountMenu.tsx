@@ -3,9 +3,9 @@ import { Heading, HStack, IconButton, Spinner } from "@chakra-ui/react";
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { TbLogout } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { ColorModeButton } from "./ui/color-mode";
 
 const AccountControls = ({ user }: { user: any }) => {
-  console.log({ user });
   const navigate = useNavigate();
   const { logout } = useAuth0();
   return (
@@ -31,6 +31,7 @@ const AccountControls = ({ user }: { user: any }) => {
       >
         <TbLogout />
       </IconButton>
+      <ColorModeButton />
     </>
   );
 };

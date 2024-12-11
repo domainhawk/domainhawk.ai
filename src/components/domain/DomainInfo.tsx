@@ -1,18 +1,17 @@
+import { DomainSearchEntry } from "@/types";
+import { formatDate } from "@/utils/date";
 import { AccordionRoot, Box, Card, Image, Table } from "@chakra-ui/react";
 import {
   AccordionItem,
   AccordionItemContent,
   AccordionItemTrigger,
 } from "../ui/accordion";
-import { DomainSearchEntry } from "@/types";
-import { formatDate } from "@/utils/date";
 
 const DomainInfo = ({
   whois,
 }: {
   whois: DomainSearchEntry["domain_search"];
 }) => {
-  console.log({ whois });
   return (
     <>
       {/* <CodeBlock>{JSON.stringify(whois, null, 2)}</CodeBlock> */}
@@ -20,8 +19,7 @@ const DomainInfo = ({
         <Image
           objectFit="cover"
           maxW="170px"
-          src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-          alt="Caffe Latte"
+          src={`https://unsplash.it/1920/1080?random&ts=${Math.random()}`}
         />
         <Box w={"full"}>
           <Card.Body>
@@ -30,11 +28,7 @@ const DomainInfo = ({
               {formatDate(whois.created_at)})
             </Card.Title>
             <Card.Description as={"div"}>
-              <AccordionRoot
-                collapsible
-                multiple
-                defaultValue={["details", "dns", "registrar"]}
-              >
+              <AccordionRoot collapsible multiple defaultValue={["details"]}>
                 <AccordionItem value="details">
                   <AccordionItemTrigger>Details</AccordionItemTrigger>
                   <AccordionItemContent>
