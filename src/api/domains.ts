@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import instance from ".";
+import { DomainSearch } from "@/types";
 
 export type DomainCheckResponse = {
   uuid: string;
@@ -34,7 +35,7 @@ export const useDomainCheck = () =>
     mutationFn: (domainName: string) => domainCheck(domainName),
   });
 
-const getDomainDetails = async (uuid: string) => {
+const getDomainDetails = async (uuid: string): Promise<DomainSearch> => {
   const res = await instance.get(`/domain/details/${uuid}`);
   return res.data;
 };

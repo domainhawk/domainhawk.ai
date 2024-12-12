@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { useGetWatchedDomains, useWatchDomain } from "@/api/domains";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { PiLockKeyOpenDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -22,16 +22,47 @@ import { Tooltip } from "../ui/tooltip";
 export const SetupWatchDialog = ({
   uuid,
   domainName,
+  expiryDate,
 }: {
   uuid: string;
   domainName: string;
+  expiryDate: string;
 }) => {
+  console.log({ expiryDate }, !!expiryDate);
   const [open, setOpen] = useState(false);
   const { data, isPending: watchedDomainsPending } = useGetWatchedDomains();
 
   const isWatched = data?.some(
     (domain: any) => domain.domain_search.id === uuid
   );
+
+  const getButton = useCallback(() => {
+    const buttonDisabled = isWatched || !expiryDate;
+
+    if (buttonDisabled) {
+      return (
+        <Tooltip
+          content={
+            isWatched
+              ? "This domain is already being watched"
+              : "Cannot watch this domain (no expiry date)"
+          }
+          openDelay={150}
+          placement="top"
+        >
+          <Button size={"sm"} disabled>
+            Watch this domain
+          </Button>
+        </Tooltip>
+      );
+    }
+
+    return (
+      <DialogTrigger asChild>
+        <Button size={"sm"}>Watch this domain</Button>
+      </DialogTrigger>
+    );
+  }, [isWatched, expiryDate]);
 
   const navigate = useNavigate();
   const { mutateAsync: watchDomain, isPending } = useWatchDomain();
@@ -67,21 +98,14 @@ export const SetupWatchDialog = ({
 
   return (
     <DialogRoot lazyMount open={open} onOpenChange={(e) => setOpen(e.open)}>
-      <Tooltip
-        content={"Already watching this domain"}
-        disabled={!isWatched}
-        openDelay={150}
-      >
-        <Group alignItems={"center"}>
-          <DialogTrigger asChild disabled={isWatched}>
-            <Button size={"sm"}>Watch this domain</Button>
-          </DialogTrigger>
-          <Button variant={"solid"} size={"sm"} disabled>
-            <PiLockKeyOpenDuotone />
-            Get domain insights
-          </Button>
-        </Group>
-      </Tooltip>
+      <Group alignItems={"center"}>
+        {getButton()}
+        <Button variant={"solid"} size={"sm"} disabled>
+          <PiLockKeyOpenDuotone />
+          Get domain insights
+        </Button>
+      </Group>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add {domainName} to your watchlist</DialogTitle>

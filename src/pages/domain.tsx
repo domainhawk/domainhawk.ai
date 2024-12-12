@@ -8,6 +8,8 @@ export default function Domain() {
   const { uuid } = useParams();
   const { data, isPending, error } = useGetDomainDetails(uuid!);
 
+  console.log({ data });
+
   if (isPending) {
     return (
       <AbsoluteCenter>
@@ -24,7 +26,11 @@ export default function Domain() {
     <AbsoluteCenter px={4}>
       <VStack w="full" pt={10} gap={10} minW={["300px", "800px"]}>
         <DomainInfo whois={data} />
-        <SetupWatchDialog uuid={uuid!} domainName={data.domain_name} />
+        <SetupWatchDialog
+          uuid={uuid!}
+          domainName={data.domain_name}
+          expiryDate={data.json_response.expires}
+        />
       </VStack>
     </AbsoluteCenter>
   );
