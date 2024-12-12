@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionItemContent,
   AccordionItemTrigger,
-} from "../ui/accordion";
+} from "@/components/ui/accordion";
 
 const DomainInfo = ({
   whois,

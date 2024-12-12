@@ -4,7 +4,7 @@ import { DomainSearchData, DomainSearchEntry } from "@/types";
 import { formatDate } from "@/utils/date";
 import { Group, Table, Text, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { CreateWatchRequestForm } from "./home";
+import { CreateWatchRequestForm } from "@/pages/home";
 
 const TableRow = ({ domain }: { domain: DomainSearchEntry }) => {
   const navigate = useNavigate();

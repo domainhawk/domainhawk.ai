@@ -7,7 +7,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./router.tsx";
+import { router } from "@/router.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {

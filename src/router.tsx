@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "./layout";
-import Home from "./pages/home";
-import Domain from "./pages/domain";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Watched from "./pages/watched";
+import Layout from "@/layout";
+import Home from "@/pages/home";
+import Domain from "@/pages/domain";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import Watched from "@/pages/watched";
 
 export const router = createBrowserRouter([
   {

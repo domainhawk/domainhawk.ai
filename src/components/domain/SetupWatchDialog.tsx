@@ -15,9 +15,9 @@ import { useGetWatchedDomains, useWatchDomain } from "@/api/domains";
 import { useCallback, useState } from "react";
 import { PiLockKeyOpenDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
-import { toaster } from "../ui/toaster";
-import { Tooltip } from "../ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { toaster } from "@/components/ui/toaster";
+import { Tooltip } from "@/components/ui/tooltip";
 
 export const SetupWatchDialog = ({
   uuid,
@@ -48,7 +48,6 @@ export const SetupWatchDialog = ({
               : "Cannot watch this domain (no expiry date)"
           }
           openDelay={150}
-          placement="top"
         >
           <Button size={"sm"} disabled>
             Watch this domain

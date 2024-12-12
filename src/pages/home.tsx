@@ -9,8 +9,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Form, useField } from "react-final-form";
-import { isValidDomainName } from "../utils/validators";
-import { useDomainCheck } from "../api/domains";
+import { isValidDomainName } from "@/utils/validators";
+import { useDomainCheck } from "@/api/domains";
 import { useNavigate } from "react-router-dom";
 
 const InputControl = ({

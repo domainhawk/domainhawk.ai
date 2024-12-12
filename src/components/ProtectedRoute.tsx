@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import useProtectedRoute from "../hooks/useProtectedRoute";
-import FullPageSpinner from "./custom/FullPageSpinner";
+import useProtectedRoute from "@/hooks/useProtectedRoute";
+import FullPageSpinner from "@/components/custom/FullPageSpinner";
 
 export default function ProtectedRoute() {
   const { loading, isAuthenticated } = useProtectedRoute();

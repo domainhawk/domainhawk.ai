@@ -15,7 +15,7 @@ import {
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { TbEye, TbLogout } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import { ColorModeButton } from "./ui/color-mode";
+import { ColorModeButton } from "@/components/ui/color-mode";
 import { BiChevronDown } from "react-icons/bi";
 
 const UserMenu = ({ user }: { user: any }) => {

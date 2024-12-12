@@ -1,6 +1,6 @@
 import { Box, Code } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { useColorModeValue } from "../ui/color-mode";
+import { useColorModeValue } from "@/components/ui/color-mode";
 
 export const CodeBlock = ({ children }: { children: ReactNode }) => {
   return (

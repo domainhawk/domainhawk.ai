@@ -2,7 +2,7 @@ import DomainInfo from "@/components/domain/DomainInfo";
 import { SetupWatchDialog } from "@/components/domain/SetupWatchDialog";
 import { AbsoluteCenter, Spinner, VStack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { useGetDomainDetails } from "../api/domains";
+import { useGetDomainDetails } from "@/api/domains";
 
 export default function Domain() {
   const { uuid } = useParams();

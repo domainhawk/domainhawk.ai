@@ -1,8 +1,8 @@
 import { Heading, HStack, VStack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { Link, Outlet } from "react-router-dom";
-import AccountMenu from "./components/AccountMenu";
-import { useColorModeValue } from "./components/ui/color-mode";
+import AccountMenu from "@/components/AccountMenu";
+import { useColorModeValue } from "@/components/ui/color-mode";
 
 const Header = () => {
   return (
