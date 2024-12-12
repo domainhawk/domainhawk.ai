@@ -1,4 +1,4 @@
-import { DialogActionTrigger, Text, VStack } from "@chakra-ui/react";
+import { DialogActionTrigger, Group, Text, VStack } from "@chakra-ui/react";
 
 import {
   DialogBody,
@@ -13,6 +13,7 @@ import {
 
 import { useGetWatchedDomains, useWatchDomain } from "@/api/domains";
 import { useState } from "react";
+import { PiLockKeyOpenDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { toaster } from "../ui/toaster";
@@ -71,9 +72,15 @@ export const SetupWatchDialog = ({
         disabled={!isWatched}
         openDelay={150}
       >
-        <DialogTrigger asChild disabled={isWatched}>
-          <Button>Watch this domain</Button>
-        </DialogTrigger>
+        <Group alignItems={"center"}>
+          <DialogTrigger asChild disabled={isWatched}>
+            <Button size={"sm"}>Watch this domain</Button>
+          </DialogTrigger>
+          <Button variant={"solid"} size={"sm"} disabled>
+            <PiLockKeyOpenDuotone />
+            Get domain insights
+          </Button>
+        </Group>
       </Tooltip>
       <DialogContent>
         <DialogHeader>

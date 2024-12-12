@@ -1,12 +1,12 @@
 import { useDeleteWatchedDomain, useGetWatchedDomains } from "@/api/domains";
 import { Button } from "@/components/ui/button";
-import { DomainSearchData } from "@/types";
+import { DomainSearchData, DomainSearchEntry } from "@/types";
 import { formatDate } from "@/utils/date";
 import { Group, Table, Text, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { CreateWatchRequestForm } from "./home";
 
-const WatchedTable = ({ response }: { response: DomainSearchData }) => {
+const TableRow = ({ domain }: { domain: DomainSearchEntry }) => {
   const navigate = useNavigate();
   const { mutateAsync: deleteWatchedDomain, isPending: isDeleting } =
     useDeleteWatchedDomain();
@@ -15,6 +15,40 @@ const WatchedTable = ({ response }: { response: DomainSearchData }) => {
     await deleteWatchedDomain(uuid);
   };
 
+  return (
+    <Table.Row>
+      <Table.Cell>{domain.domain_search.domain_name}</Table.Cell>
+      <Table.Cell>{formatDate(domain.created_at)}</Table.Cell>
+      <Table.Cell>{formatDate(domain.updated_at)}</Table.Cell>
+      <Table.Cell>
+        {formatDate(domain.domain_search.json_response.expires)}
+      </Table.Cell>
+      <Table.Cell>{domain.domain_search.json_response.status}</Table.Cell>
+      <Table.Cell>
+        <Group attached>
+          <Button
+            size={"sm"}
+            variant="outline"
+            onClick={() => navigate(`/domain/${domain.domain_search.id}`)}
+          >
+            View
+          </Button>
+          <Button
+            size={"sm"}
+            variant="outline"
+            loadingText="Deleting"
+            loading={isDeleting}
+            onClick={() => handleDelete(domain.id)}
+          >
+            Delete
+          </Button>
+        </Group>
+      </Table.Cell>
+    </Table.Row>
+  );
+};
+
+const WatchedTable = ({ response }: { response: DomainSearchData }) => {
   const hasNoDomains = response.length === 0;
 
   return (
@@ -36,39 +70,7 @@ const WatchedTable = ({ response }: { response: DomainSearchData }) => {
           </Table.Header>
           <Table.Body>
             {response.map((domain) => (
-              <Table.Row>
-                <Table.Cell>{domain.domain_search.domain_name}</Table.Cell>
-                <Table.Cell>{formatDate(domain.created_at)}</Table.Cell>
-                <Table.Cell>{formatDate(domain.updated_at)}</Table.Cell>
-                <Table.Cell>
-                  {formatDate(domain.domain_search.json_response.expires)}
-                </Table.Cell>
-                <Table.Cell>
-                  {domain.domain_search.json_response.status}
-                </Table.Cell>
-                <Table.Cell>
-                  <Group attached>
-                    <Button
-                      size={"sm"}
-                      variant="outline"
-                      onClick={() =>
-                        navigate(`/domain/${domain.domain_search.id}`)
-                      }
-                    >
-                      View
-                    </Button>
-                    <Button
-                      size={"sm"}
-                      variant="outline"
-                      loadingText="Deleting"
-                      loading={isDeleting}
-                      onClick={() => handleDelete(domain.id)}
-                    >
-                      Delete
-                    </Button>
-                  </Group>
-                </Table.Cell>
-              </Table.Row>
+              <TableRow domain={domain} />
             ))}
           </Table.Body>
         </Table.Root>
