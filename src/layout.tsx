@@ -22,14 +22,22 @@ const Header = () => {
   );
 };
 
-export default function Layout() {
+export const LayerContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <VStack w="full">
       <Helmet>
         <title>DomainHawk.ai</title>
       </Helmet>
       <Header />
-      <Outlet />
+      {children}
     </VStack>
+  );
+};
+
+export default function SiteLayout() {
+  return (
+    <LayerContainer>
+      <Outlet />
+    </LayerContainer>
   );
 }

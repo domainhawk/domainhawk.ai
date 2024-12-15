@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Form, useField } from "react-final-form";
 import { isValidDomainName } from "@/utils/validators";
-import { useDomainCheck } from "@/api/domains";
+import { useDomainCheck } from "@/api/domains/hooks";
 import { useNavigate } from "react-router-dom";
 
 const InputControl = ({
@@ -19,12 +19,14 @@ const InputControl = ({
   isLoading,
   buttonText,
   placeholder,
+  error,
 }: {
   name: string;
   label: string;
   isLoading: boolean;
   buttonText: string;
   placeholder?: string;
+  error?: any;
 }) => {
   const { input, meta } = useField(name, {
     validate: (value) =>
@@ -46,17 +48,22 @@ const InputControl = ({
           {meta.error}
         </Text>
       )}
+      {error && (
+        <Text color="red" fontSize="xs">
+          {error.message}
+        </Text>
+      )}
     </FormField>
   );
 };
 
 export const CreateWatchRequestForm = () => {
-  const { mutateAsync: domainCheck, isPending } = useDomainCheck();
+  const { mutateAsync: domainCheck, isPending, error } = useDomainCheck();
   const navigate = useNavigate();
   const onSubmit = async (values: any) => {
     const { domainName } = values;
-    const res = await domainCheck(domainName);
-    navigate(`/domain/${res.uuid}`);
+    await domainCheck(domainName);
+    navigate(`/domain/${domainName}`);
   };
 
   return (
@@ -66,6 +73,7 @@ export const CreateWatchRequestForm = () => {
         <form onSubmit={handleSubmit}>
           <HStack minW={["90%", "450px"]}>
             <InputControl
+              error={error}
               isLoading={isPending}
               name="domainName"
               label="Watch a domain name"

@@ -31,7 +31,8 @@
     "react-helmet-async": "^2.0.5",
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.0.2",
-    "serve": "^14.2.4"
+    "serve": "^14.2.4",
+    "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

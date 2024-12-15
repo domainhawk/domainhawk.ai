@@ -1,12 +1,11 @@
-import { Outlet } from "react-router-dom";
-import useProtectedRoute from "@/hooks/useProtectedRoute";
 import FullPageSpinner from "@/components/custom/FullPageSpinner";
+import { Outlet } from "react-router-dom";
+import { useAuthContext } from "./auth/useAuthContext";
 
 export default function ProtectedRoute() {
-  const { loading, isAuthenticated } = useProtectedRoute();
+  const { isLoading, isAuthenticated } = useAuthContext();
 
-  // Authentication is taken care of by the useProtectedRoute hook
-  if (loading || !isAuthenticated) {
+  if (isLoading || !isAuthenticated) {
     return <FullPageSpinner />;
   }
 

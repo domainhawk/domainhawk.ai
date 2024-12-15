@@ -6,6 +6,7 @@ export default function useProtectedRoute() {
   const { isAuthenticated, isLoading, loginWithRedirect, getIdTokenClaims } =
     useAuth0();
 
+
   useEffect(() => {
     if (isAuthenticated) {
       getIdTokenClaims().then((claims) => {
@@ -26,11 +27,12 @@ export default function useProtectedRoute() {
     });
   }, [isLoading, isAuthenticated, loginWithRedirect, getIdTokenClaims]);
 
-  const loading = isLoading || !isAuthenticated;
+  const loading = isLoading || !isAuthenticated || userLoading;
 
   return {
     isAuthenticated,
     loading,
     tokenSet,
+    user,
   };
 }

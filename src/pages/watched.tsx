@@ -1,12 +1,16 @@
-import { useDeleteWatchedDomain, useGetWatchedDomains } from "@/api/domains";
+import { WatchedDomain } from "@/api/domains/client";
+import {
+  useDeleteWatchedDomain,
+  useGetWatchedDomains,
+} from "@/api/domains/hooks";
 import { Button } from "@/components/ui/button";
-import { DomainSearchData, DomainSearchEntry } from "@/types";
+import { CreateWatchRequestForm } from "@/pages/home";
 import { formatDate } from "@/utils/date";
 import { Group, Table, Text, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { CreateWatchRequestForm } from "@/pages/home";
 
-const TableRow = ({ domain }: { domain: DomainSearchEntry }) => {
+// FIXME: type this
+const TableRow = ({ domain }: { domain: WatchedDomain }) => {
   const navigate = useNavigate();
   const { mutateAsync: deleteWatchedDomain, isPending: isDeleting } =
     useDeleteWatchedDomain();
@@ -17,19 +21,17 @@ const TableRow = ({ domain }: { domain: DomainSearchEntry }) => {
 
   return (
     <Table.Row>
-      <Table.Cell>{domain.domain_search.domain_name}</Table.Cell>
+      <Table.Cell>{domain.domain_name}</Table.Cell>
       <Table.Cell>{formatDate(domain.created_at)}</Table.Cell>
       <Table.Cell>{formatDate(domain.updated_at)}</Table.Cell>
-      <Table.Cell>
-        {formatDate(domain.domain_search.json_response.expires)}
-      </Table.Cell>
-      <Table.Cell>{domain.domain_search.json_response.status}</Table.Cell>
+      <Table.Cell>{formatDate(domain.expiry_date)}</Table.Cell>
+      <Table.Cell>FIXME</Table.Cell>
       <Table.Cell>
         <Group attached>
           <Button
             size={"sm"}
             variant="outline"
-            onClick={() => navigate(`/domain/${domain.domain_search.id}`)}
+            onClick={() => navigate(`/account/watched/${domain.id}`)}
           >
             View
           </Button>
@@ -48,8 +50,9 @@ const TableRow = ({ domain }: { domain: DomainSearchEntry }) => {
   );
 };
 
-const WatchedTable = ({ response }: { response: DomainSearchData }) => {
-  const hasNoDomains = response.length === 0;
+const WatchedTable = ({ domains }: { domains: WatchedDomain[] }) => {
+  console.log({ domains });
+  const hasNoDomains = domains.length === 0;
 
   return (
     <VStack gap={4} alignItems="flex-start">
@@ -69,7 +72,7 @@ const WatchedTable = ({ response }: { response: DomainSearchData }) => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {response.map((domain) => (
+            {domains.map((domain) => (
               <TableRow domain={domain} />
             ))}
           </Table.Body>
@@ -90,5 +93,5 @@ export default function Watched() {
     return <div>Error: {error.message}</div>;
   }
 
-  return <WatchedTable response={data} />;
+  return <WatchedTable domains={data} />;
 }
