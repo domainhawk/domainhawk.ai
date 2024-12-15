@@ -54,6 +54,8 @@ export const AddToWatchedDomainsButton = ({
         loadingText="Adding to watched domains"
         disabled={!canAddToWatchedDomains}
         onClick={handleAddToWatchedDomains}
+        alignSelf="flex-start"
+        width="auto"
       >
         <LuPlus />
         Add {domainName} to my watched domains

@@ -1,4 +1,4 @@
-import { Heading, HStack, VStack } from "@chakra-ui/react";
+import { Box, Heading, HStack, VStack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { Link, Outlet } from "react-router-dom";
 import AccountMenu from "@/components/AccountMenu";
@@ -8,13 +8,13 @@ const Header = () => {
   return (
     <HStack
       w="full"
-      px={4}
+      px={[2, 4]}
       minH={"40px"}
       justifyContent={"space-between"}
       bgColor={useColorModeValue("gray.100", "gray.900")}
     >
       <Link to="/">
-        <Heading size="md">DomainHawk.ai</Heading>
+        <Heading size={["sm", "md"]}>DomainHawk.ai</Heading>
       </Link>
 
       <AccountMenu />
@@ -24,12 +24,14 @@ const Header = () => {
 
 export const LayerContainer = ({ children }: { children: React.ReactNode }) => {
   return (
-    <VStack w="full">
+    <VStack w="full" maxW="100vw" overflow="hidden">
       <Helmet>
         <title>DomainHawk.ai</title>
       </Helmet>
       <Header />
-      {children}
+      <Box w="full" overflowX="auto">
+        {children}
+      </Box>
     </VStack>
   );
 };

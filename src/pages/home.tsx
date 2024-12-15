@@ -36,7 +36,7 @@ const InputControl = ({
 
   return (
     <FormField label={label} invalid={meta.error && meta.touched} w="full">
-      <Group attached w="full">
+      <Group attached w="full" orientation={["vertical", "horizontal"]}>
         <Input {...input} id={name} placeholder={placeholder || label} />
         <Button type="submit" disabled={isLoading || meta.error}>
           {buttonText}

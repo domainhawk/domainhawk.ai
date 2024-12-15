@@ -2,15 +2,16 @@ import { useGetDomainDetails } from "@/api/domains/hooks";
 import { AddToWatchedDomainsButton } from "@/components/custom/buttons/AddToWatchedDomains";
 import { UnlockInsightsButton } from "@/components/custom/buttons/UnlockInsightsButton";
 import {
-  AbsoluteCenter,
+  Box,
   Card,
+  Container,
   Heading,
-  HStack,
   List,
   Spinner,
   Table,
   Text,
   VStack,
+  HStack,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { LuCheck } from "react-icons/lu";
@@ -21,8 +22,22 @@ const DisplayRow = ({ label, value }: { label: string; value?: string }) => {
 
   return (
     <Table.Row>
-      <Table.Cell flexGrow={1}>{label}</Table.Cell>
-      <Table.Cell>{value}</Table.Cell>
+      <Table.Cell
+        maxWidth="400px"
+        whiteSpace="nowrap"
+        overflow="hidden"
+        textOverflow="ellipsis"
+      >
+        {label}
+      </Table.Cell>
+      <Table.Cell
+        maxWidth="400px"
+        whiteSpace="nowrap"
+        overflow="hidden"
+        textOverflow="ellipsis"
+      >
+        {value}
+      </Table.Cell>
     </Table.Row>
   );
 };
@@ -44,87 +59,106 @@ export default function Domain() {
 
   if (isPending) {
     return (
-      <AbsoluteCenter>
-        <Spinner size={"xl"} />
-      </AbsoluteCenter>
+      <Container centerContent py={10}>
+        <Spinner size="xl" />
+      </Container>
     );
   }
 
   if (error || data?.error) {
     return (
-      <AbsoluteCenter>
+      <Container centerContent py={10}>
         <Text>{error?.message || data?.error}</Text>
-      </AbsoluteCenter>
+      </Container>
     );
   }
 
   if (!data) {
     return (
-      <AbsoluteCenter>
+      <Container centerContent py={10}>
         <Text>No data found for {domainName}</Text>
-      </AbsoluteCenter>
+      </Container>
     );
   }
 
   // return ;
 
   return (
-    <>
-      {/* <CodeBlock p={10} w="full" h="800px">
-        {JSON.stringify(data, null, 2)}
-      </CodeBlock> */}
+    <Container maxW="container.xl" py={[4, 6, 10]}>
+      <VStack gap={[4, 6, 8]} align="stretch" w="full">
+        <HStack
+          w="full"
+          align="flex-start"
+          gap={[4, 6, 8]}
+          flexDir={["column", "column", "row"]}
+        >
+          {/* Left column - Domain Info */}
+          <VStack gap={4} align="stretch" flex={2}>
+            <AddToWatchedDomainsButton
+              domainName={domainName!}
+              expiryDate={data.expiryDate}
+            />
 
-      <HStack
-        w={"full"}
-        justify={"center"}
-        alignItems={"flex-start"}
-        p={10}
-        gap={10}
-      >
-        <VStack w={"full"} alignItems={"flex-start"} gap={12}>
-          <AddToWatchedDomainsButton
-            domainName={domainName!}
-            expiryDate={data.expiryDate}
-          />
-          <Card.Root w={"full"} minW={"800px"} flex={1}>
-            <Card.Header>Domain Info</Card.Header>
+            <Card.Root>
+              <Card.Header>
+                <Heading size="md">Domain Info</Heading>
+              </Card.Header>
+              <Card.Body>
+                <Box
+                  overflowX="auto"
+                  maxWidth="100%"
+                  sx={{
+                    WebkitOverflowScrolling: "touch", // for smooth scrolling on iOS
+                    "&::-webkit-scrollbar": {
+                      height: "8px",
+                    },
+                  }}
+                >
+                  <Table.Root striped size="sm" style={{ minWidth: "100%" }}>
+                    <Table.Body>
+                      {data.result?.map((item, index) => (
+                        <DisplayRow
+                          key={`${index}-${item.attribute}`}
+                          label={item.attribute}
+                          value={item.value}
+                        />
+                      ))}
+                    </Table.Body>
+                  </Table.Root>
+                </Box>
+              </Card.Body>
+            </Card.Root>
+
+            <AddToWatchedDomainsButton
+              domainName={domainName!}
+              expiryDate={data.expiryDate}
+            />
+          </VStack>
+
+          {/* Right column - Domain Insights */}
+          <Card.Root flex={1}>
+            <Card.Header>
+              <Heading size="md">Get Domain Insights</Heading>
+            </Card.Header>
             <Card.Body>
-              <Table.Root striped>
-                <Table.Body>
-                  {data.result?.map((item, index) => (
-                    <DisplayRow
-                      key={`${index}-${item.attribute}`}
-                      label={item.attribute}
-                      value={item.value}
-                    />
-                  ))}
-                </Table.Body>
-              </Table.Root>
+              <VStack align="stretch" gap={4}>
+                <Text fontSize="sm">
+                  Get detailed insights about the domain, including:
+                </Text>
+                <List.Root fontSize="md" variant="plain" gap={2}>
+                  <ListItemWithIcon>Domain age</ListItemWithIcon>
+                  <ListItemWithIcon>SEO Value</ListItemWithIcon>
+                  <ListItemWithIcon>Brand Strength</ListItemWithIcon>
+                  <ListItemWithIcon>Likelihood to renew</ListItemWithIcon>
+                  <ListItemWithIcon>Approx domain value</ListItemWithIcon>
+                </List.Root>
+                <Text fontSize="sm">... and more!</Text>
+                <UnlockInsightsButton domainName={domainName!} />
+              </VStack>
             </Card.Body>
           </Card.Root>
-          <AddToWatchedDomainsButton
-            domainName={domainName!}
-            expiryDate={data.expiryDate}
-          />
-        </VStack>
-        <VStack w={"full"} alignItems={"flex-start"} gap={12}>
-          <VStack alignItems={"flex-start"} gap={2}>
-            <Heading fontSize={"md"}>Get Domain Insights</Heading>
-            <Text fontSize={"sm"}>
-              Get detailed insights about the domain, including:
-            </Text>
-            <List.Root fontSize={"md"} variant={"plain"} gap={2}>
-              <ListItemWithIcon>Domain age</ListItemWithIcon>
-              <ListItemWithIcon>SEO Value</ListItemWithIcon>
-              <ListItemWithIcon>Brand Strength</ListItemWithIcon>
-              <ListItemWithIcon>Likelihood to renew</ListItemWithIcon>
-              <ListItemWithIcon>Approx domain value</ListItemWithIcon>
-            </List.Root>
-            <Text fontSize={"sm"}>... and more!</Text>
-          </VStack>
-          <UnlockInsightsButton domainName={domainName!} />
-        </VStack>
-      </HStack>
-    </>
+        </HStack>
+      </VStack>
+    </Container>
   );
 }

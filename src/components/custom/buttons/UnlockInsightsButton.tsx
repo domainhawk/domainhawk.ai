@@ -9,7 +9,12 @@ import { useNavigate } from "react-router-dom";
 export const UpgradeButton = () => {
   const navigate = useNavigate();
   return (
-    <Button onClick={() => navigate("/upgrade")}>
+    <Button
+      onClick={() => navigate("/upgrade")}
+      alignSelf="flex-start"
+      width="auto"
+      py={2}
+    >
       <FaLock />
       Unlock Domain Insights from $10 per month
     </Button>
