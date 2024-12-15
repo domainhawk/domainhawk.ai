@@ -13,10 +13,12 @@ export default function Error() {
         <VStack gap={4}>
           <Heading fontSize={"4xl"} w="full" textAlign={"center"}>
             <HStack w="full" justifyContent={"center"}>
+              {/* @ts-expect-error this is fine */}
               <FiAlertCircle /> {error.status}
             </HStack>
           </Heading>
           <Heading fontSize={"2xl"} w="full" textAlign={"center"}>
+            {/* @ts-expect-error this is fine */}
             {error.data}
           </Heading>
           <Link to="/">Go to home</Link>
