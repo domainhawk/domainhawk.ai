@@ -104,16 +104,7 @@ export default function Domain() {
                 <Heading size="md">Domain Info</Heading>
               </Card.Header>
               <Card.Body>
-                <Box
-                  overflowX="auto"
-                  maxWidth="100%"
-                  sx={{
-                    WebkitOverflowScrolling: "touch", // for smooth scrolling on iOS
-                    "&::-webkit-scrollbar": {
-                      height: "8px",
-                    },
-                  }}
-                >
+                <Box overflowX="auto" maxWidth="100%">
                   <Table.Root striped size="sm" style={{ minWidth: "100%" }}>
                     <Table.Body>
                       {data.result?.map((item, index) => (
