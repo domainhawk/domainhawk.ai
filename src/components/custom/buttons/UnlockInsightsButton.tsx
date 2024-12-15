@@ -32,7 +32,7 @@ export const UnlockInsightsButton = ({
     const { id } = await createDomainInsight(domainName);
     console.log({ id });
     if (id) {
-      navigate(`/insights/${id}/${domainName}`);
+      navigate(`/insights/${id}`);
     } else {
       toaster.create({
         title: "Failed to create domain insight",

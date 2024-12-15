@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 
 export const Insights = () => {
-  const { id, domainName } = useParams();
+  const { id } = useParams();
   const { data, isPending } = useGetDomainInsight(id!);
 
   if (isPending) {

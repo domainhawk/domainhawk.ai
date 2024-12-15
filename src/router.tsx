@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
             element: <Upgrade />,
           },
           {
-            path: "/insights/:id/:domainName",
+            path: "/insights/:id",
             element: <Insights />,
           },
           {
