@@ -12,7 +12,6 @@ export interface WatchedDomain {
   created_at: string;
   updated_at: string;
   expiry_date: string;
-  status: 'active' | 'expired';
 }
 
 export const domainCheck = async (
@@ -49,4 +48,10 @@ export const getDomainDetails = async (
   uuid: string
 ): Promise<AxiosResponse<DomainDetails>> => {
   return instance.get(`/domain/details/${uuid}`);
+};
+
+export const getWatchedDomain = async (
+  uuid: string
+): Promise<AxiosResponse<WatchedDomain>> => {
+  return instance.get(`/domain/watched/${uuid}`);
 };

@@ -10,6 +10,7 @@ import Upgrade from "./pages/upgrade";
 import { InsightsById } from "./pages/insights/id";
 import Error from "./components/errors";
 import { Insights } from "./pages/insights";
+import WatchedById from "./pages/watched/id";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
               {
                 path: "/account/watched",
                 element: <Watched />,
+              },
+              {
+                path: "/account/watched/:id",
+                element: <WatchedById />,
               },
               {
                 path: "/account/settings",

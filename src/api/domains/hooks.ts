@@ -4,6 +4,7 @@ import {
   getDomainDetails,
   watchDomain,
   deleteWatchedDomain,
+  getWatchedDomain,
 } from "./client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -40,3 +41,9 @@ export const useDeleteWatchedDomain = () => {
     },
   });
 };
+
+export const useGetWatchedDomain = (uuid: string) =>
+  useQuery({
+    queryKey: ["watched-domain", uuid],
+    queryFn: () => getWatchedDomain(uuid),
+  });
