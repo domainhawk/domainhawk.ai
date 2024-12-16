@@ -25,7 +25,7 @@ export const domainCheck = async (
 
 export const watchDomain = async (
   domainName: string,
-  expiryDate: number
+  expiryDate: string
 ): Promise<WatchedDomain> => {
   const res = await instance.post(`/domain/watch`, {
     domainName,

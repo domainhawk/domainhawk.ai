@@ -20,7 +20,7 @@ export const useGetDomainDetails = (uuid: string) =>
 
 export const useWatchDomain = () =>
   useMutation({
-    mutationFn: (opts: { domainName: string; expiryDate: number }) =>
+    mutationFn: (opts: { domainName: string; expiryDate: string }) =>
       watchDomain(opts.domainName, opts.expiryDate),
   });
 
