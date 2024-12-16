@@ -66,7 +66,7 @@ export default function WatchedById() {
     <Box maxW="container.md" mx="auto" p={6}>
       <Card.Root>
         <CardHeader>
-          <Heading size="lg">{watchedDomain.domain_name}</Heading>
+          <Heading size="lg">Watching {watchedDomain.domain_name}</Heading>
         </CardHeader>
 
         <CardBody>
