@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { User } from "@/api/user/client";
 import { LogoutOptions } from "@auth0/auth0-react";
 import { createContext } from "react";
