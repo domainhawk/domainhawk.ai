@@ -5,8 +5,12 @@ import { useAuthContext } from "./auth/useAuthContext";
 export default function ProtectedRoute() {
   const { isLoading, isAuthenticated } = useAuthContext();
 
-  if (isLoading || !isAuthenticated) {
+  if (isLoading) {
     return <FullPageSpinner />;
+  }
+
+  if (!isAuthenticated) {
+    throw new Error("Unauthorized");
   }
 
   return <Outlet />;

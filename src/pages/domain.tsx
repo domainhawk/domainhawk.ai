@@ -1,7 +1,10 @@
 import { useGetDomainDetails } from "@/api/domains/hooks";
+import { useAuthContext } from "@/components/auth/useAuthContext";
 import { AddToWatchedDomainsButton } from "@/components/custom/buttons/AddToWatchedDomains";
 import { UnlockInsightsButton } from "@/components/custom/buttons/UnlockInsightsButton";
 import { DomainDetailsTables } from "@/components/custom/domain/DomainDetailsTables";
+import { Button } from "@/components/ui/button";
+import { useLoginLogout } from "@/hooks/useLoginLogout";
 import {
   Card,
   Container,
@@ -30,6 +33,8 @@ export const ListItemWithIcon = ({ children }: { children: ReactNode }) => {
 export default function Domain() {
   const { domainName } = useParams();
   const { data, isPending, error } = useGetDomainDetails(domainName!);
+  const { login } = useLoginLogout();
+  const { user } = useAuthContext();
 
   if (isPending) {
     return (
@@ -99,7 +104,11 @@ export default function Domain() {
                   <ListItemWithIcon>Approx domain value</ListItemWithIcon>
                 </List.Root>
                 <Text fontSize="sm">... and more!</Text>
-                <UnlockInsightsButton domainName={domainName!} />
+                {user ? (
+                  <UnlockInsightsButton domainName={domainName!} />
+                ) : (
+                  <Button onClick={login}>Login / Register</Button>
+                )}
               </VStack>
             </Card.Body>
           </Card.Root>

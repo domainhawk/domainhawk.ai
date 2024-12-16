@@ -7,7 +7,8 @@ const defaultContextProps = {
   isAuthenticated: false,
   isLoading: false,
   logout: () => Promise.resolve(),
-  login: () => Promise.resolve(),
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  login: (props: any) => Promise.resolve(),
   user: undefined,
   gates: [],
 };
@@ -17,7 +18,7 @@ export const AuthContext = createContext<{
   isAuthenticated: boolean;
   isLoading: boolean;
   logout: (props: LogoutOptions | undefined) => Promise<void>;
-  login: () => Promise<void>;
+  login: (props: any) => Promise<void>;
   user?: User;
   gates?: string[];
 }>(defaultContextProps);

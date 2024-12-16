@@ -22,7 +22,7 @@ const Header = () => {
   );
 };
 
-export const LayerContainer = ({ children }: { children: React.ReactNode }) => {
+const LayerContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <VStack w="full" maxW="100vw" overflow="hidden">
       <Helmet>

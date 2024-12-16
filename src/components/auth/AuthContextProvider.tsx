@@ -1,6 +1,7 @@
 import { User } from "@/api/user/client";
 import { useGetUser } from "@/api/user/hooks";
 import { AuthContext } from "@/components/auth/AuthContext";
+import { useLoginLogout } from "@/hooks/useLoginLogout";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -13,14 +14,11 @@ const useUser = () => {
     isLoading: auth0Loading,
     getIdTokenClaims,
     user: auth0User,
-    logout: _logout,
-    loginWithRedirect: _login,
   } = useAuth0();
 
   const isEnabled = isAuthenticated && hasAccessToken;
   const { data: userData } = useGetUser(isEnabled);
-  const logout = () => _logout().then(() => localStorage.clear());
-  const login = () => _login();
+  const { login, logout } = useLoginLogout();
 
   useEffect(() => {
     if (!auth0Loading && isAuthenticated) {
