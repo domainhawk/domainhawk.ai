@@ -82,9 +82,10 @@ export const CreateWatchRequestForm = () => {
   const { mutateAsync: domainCheck, isPending, error } = useDomainCheck();
   const navigate = useNavigate();
   const onSubmit = async (values: any) => {
-    const { domainName } = values;
-    await domainCheck(domainName);
-    navigate(`/domain/${domainName}`);
+    const { domainName: domainNameFromCheck } = await domainCheck(
+      values.domainName
+    );
+    navigate(`/domain/${domainNameFromCheck}`);
   };
 
   return (

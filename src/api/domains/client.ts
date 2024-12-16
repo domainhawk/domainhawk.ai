@@ -3,7 +3,7 @@ import instance from "..";
 import { AxiosResponse } from "axios";
 
 export type DomainCheckResponse = {
-  uuid: string;
+  domainName: string;
 };
 
 export interface WatchedDomain {
