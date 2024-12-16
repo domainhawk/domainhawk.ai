@@ -1,8 +1,9 @@
 import { useWatchDomain } from "@/api/domains/hooks";
 import { useAuthContext } from "@/components/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
-import { toaster } from "@/components/ui/toaster";
 import { Tooltip } from "@/components/ui/tooltip";
+import { useAxiosErrorHandler } from "@/hooks/useAxiosErrorHandler";
+import { useNotify } from "@/hooks/useNotify";
 import { LuPlus } from "react-icons/lu";
 
 export const AddToWatchedDomainsButton = ({
@@ -13,6 +14,8 @@ export const AddToWatchedDomainsButton = ({
   expiryDate?: string;
 }) => {
   const { user } = useAuthContext();
+  const handleError = useAxiosErrorHandler();
+  const notify = useNotify();
   const expiringDomainsWatched =
     user?.user_settings?.expiring_domains_watched || 0;
   const canAddToWatchedDomains = Boolean(
@@ -24,14 +27,12 @@ export const AddToWatchedDomainsButton = ({
   const handleAddToWatchedDomains = async () => {
     try {
       await watchDomain({ domainName, expiryDate: expiryDate! });
-      toaster.create({
-        title: "Domain added to watched domains",
-        description: "You will receive an email when the domain expires",
-        type: "success",
-        duration: 1500,
-      });
+      notify(
+        "Domain added to watched domains",
+        "You will receive an email when the domain expires"
+      );
     } catch (error) {
-      console.error(error);
+      handleError(error, { domainName });
     }
   };
 
@@ -50,12 +51,12 @@ export const AddToWatchedDomainsButton = ({
       disabled={canAddToWatchedDomains}
     >
       <Button
+        w={["full", "auto"]}
         loading={isPending}
         loadingText="Adding to watched domains"
         disabled={!canAddToWatchedDomains}
         onClick={handleAddToWatchedDomains}
         alignSelf="flex-start"
-        width="auto"
       >
         <LuPlus />
         Add {domainName} to my watched domains

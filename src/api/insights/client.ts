@@ -38,6 +38,13 @@ export type InsightResponse = {
   updated_at: string; // ISO 8601 date string
 };
 
+type InsightSummary = {
+  id: string;
+  domain_name: string;
+  created_at: string;
+  schema_version: string;
+};
+
 export const createInsight = async (
   domainName: string
 ): Promise<{ id: string }> => {
@@ -52,3 +59,7 @@ export const getDomainInsight = async (id: string): Promise<InsightResponse> => 
   return res.data;
 };
 
+export const getDomainInsights = async (): Promise<InsightSummary[]> => {
+  const res = await instance.get(`/insights`);
+  return res.data;
+};

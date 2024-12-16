@@ -7,8 +7,9 @@ import Watched from "@/pages/watched";
 import AccountMenu from "./components/AccountMenu";
 import AccountSettings from "./pages/account/settings";
 import Upgrade from "./pages/upgrade";
-import { Insights } from "./pages/insights";
+import { InsightsById } from "./pages/insights/id";
 import Error from "./components/errors";
+import { Insights } from "./pages/insights";
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +19,6 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        // element: <ProtectedRoute />,
         errorElement: <Error />,
         children: [
           {
@@ -34,10 +34,6 @@ export const router = createBrowserRouter([
             element: <Upgrade />,
           },
           {
-            path: "/insights/:id",
-            element: <Insights />,
-          },
-          {
             path: "/account",
             element: <ProtectedRoute />,
             errorElement: <Error />,
@@ -45,6 +41,14 @@ export const router = createBrowserRouter([
               {
                 path: "/account",
                 element: <AccountMenu />,
+              },
+              {
+                path: "/account/insights/:id",
+                element: <InsightsById />,
+              },
+              {
+                path: "/account/insights",
+                element: <Insights />,
               },
               {
                 path: "/account/watched",

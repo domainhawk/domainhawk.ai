@@ -1,5 +1,4 @@
 import { useGetDomainInsight } from "@/api/insights/hooks";
-import { useParams } from "react-router-dom";
 import { StatRoot } from "@/components/ui/stat";
 import {
   Badge,
@@ -7,6 +6,7 @@ import {
   Card,
   Container,
   Heading,
+  HStack,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -15,8 +15,10 @@ import {
   StatValueText,
   Text,
 } from "@chakra-ui/react";
+import { LuCircleCheck, LuCircleX } from "react-icons/lu";
+import { useParams } from "react-router-dom";
 
-export const Insights = () => {
+export const InsightsById = () => {
   const { id } = useParams();
   const { data, isPending } = useGetDomainInsight(id!);
 
@@ -70,11 +72,14 @@ export const Insights = () => {
                   <Text fontWeight="bold" mb={2}>
                     Likely to Renew
                   </Text>
-                  <Badge
-                    colorScheme={data.content.likely_to_renew ? "green" : "red"}
-                  >
-                    {data.content.likely_to_renew ? "Yes" : "No"}
-                  </Badge>
+                  <HStack gap={2}>
+                    {data.content.likely_to_renew ? (
+                      <LuCircleCheck color="green" size={20} />
+                    ) : (
+                      <LuCircleX color="red" size={20} />
+                    )}
+                    <Text>{data.content.likely_to_renew ? "Yes" : "No"}</Text>
+                  </HStack>
                   <Text fontSize="sm" mt={2} color="gray.600">
                     {data.content.rationale_for_likely_to_renew}
                   </Text>
@@ -91,19 +96,19 @@ export const Insights = () => {
               <Stack gap={4}>
                 <StatRoot>
                   <StatLabel>SEO Score</StatLabel>
-                  <StatValueText>{data.content.seo.score}</StatValueText>
+                  <StatValueText>{data.content.seo.score}%</StatValueText>
                   <StatHelpText>{data.content.seo.explanation}</StatHelpText>
                 </StatRoot>
                 <StatRoot>
                   <StatLabel>Branding Score</StatLabel>
-                  <StatValueText>{data.content.branding.score}</StatValueText>
+                  <StatValueText>{data.content.branding.score}%</StatValueText>
                   <StatHelpText>
                     {data.content.branding.explanation}
                   </StatHelpText>
                 </StatRoot>
                 <StatRoot>
                   <StatLabel>Sentiment Score</StatLabel>
-                  <StatValueText>{data.content.sentiment.score}</StatValueText>
+                  <StatValueText>{data.content.sentiment.score}%</StatValueText>
                   <StatHelpText>
                     {data.content.sentiment.explanation}
                   </StatHelpText>

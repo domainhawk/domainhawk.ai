@@ -82,7 +82,7 @@ export default function Domain() {
           </VStack>
 
           {/* Right column - Domain Insights */}
-          <Card.Root flex={1}>
+          <Card.Root flex={1} w="full">
             <Card.Header>
               <Heading size="md">Get Domain Insights</Heading>
             </Card.Header>

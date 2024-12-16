@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createInsight, getDomainInsight } from "./client";
+import { createInsight, getDomainInsight, getDomainInsights } from "./client";
 
 export const useCreateDomainInsight = () => {
   const queryClient = useQueryClient();
@@ -15,4 +15,10 @@ export const useGetDomainInsight = (id: string) =>
   useQuery({
     queryKey: ["insights", id],
     queryFn: () => getDomainInsight(id),
+  });
+
+export const useGetDomainInsights = () =>
+  useQuery({
+    queryKey: ["insights"],
+    queryFn: () => getDomainInsights(),
   });

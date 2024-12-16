@@ -1,17 +1,34 @@
+import { useDomainCheck } from "@/api/domains/hooks";
 import { Field as FormField } from "@/components/ui/field";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { isValidDomainName } from "@/utils/validators";
 import {
   AbsoluteCenter,
   Button,
   Group,
-  HStack,
   Input,
   Spinner,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import { Form, useField } from "react-final-form";
-import { isValidDomainName } from "@/utils/validators";
-import { useDomainCheck } from "@/api/domains/hooks";
 import { useNavigate } from "react-router-dom";
+
+const InputContainer = ({ children }: { children: React.ReactNode }) => {
+  const isMobile = useIsMobile();
+  if (isMobile) {
+    return (
+      <VStack w="full" gap={2} alignItems={"stretch"}>
+        {children}
+      </VStack>
+    );
+  }
+  return (
+    <Group attached w="full">
+      {children}
+    </Group>
+  );
+};
 
 const InputControl = ({
   name,
@@ -36,13 +53,17 @@ const InputControl = ({
 
   return (
     <FormField label={label} invalid={meta.error && meta.touched} w="full">
-      <Group attached w="full" orientation={["vertical", "horizontal"]}>
+      <InputContainer>
         <Input {...input} id={name} placeholder={placeholder || label} />
-        <Button type="submit" disabled={isLoading || meta.error}>
+        <Button
+          type="submit"
+          disabled={isLoading || meta.error}
+          w={["full", "auto"]}
+        >
           {buttonText}
-          {isLoading && <Spinner size="xs" />}
+          {isLoading && <Spinner size="xs" ml={2} />}
         </Button>
-      </Group>
+      </InputContainer>
       {meta.error && meta.touched && (
         <Text color="red" fontSize="xs">
           {meta.error}
@@ -71,7 +92,7 @@ export const CreateWatchRequestForm = () => {
       onSubmit={onSubmit}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <HStack minW={["90%", "450px"]}>
+          <VStack minW={["90%", "450px"]} gap={4}>
             <InputControl
               error={error}
               isLoading={isPending}
@@ -80,7 +101,7 @@ export const CreateWatchRequestForm = () => {
               placeholder="example.com"
               buttonText={isPending ? "Checking..." : "Check domain"}
             />
-          </HStack>
+          </VStack>
         </form>
       )}
     />

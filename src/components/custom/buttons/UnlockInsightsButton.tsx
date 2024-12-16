@@ -1,7 +1,7 @@
 import { useCreateDomainInsight } from "@/api/insights/hooks";
 import { useAuthContext } from "@/components/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
-import { toaster } from "@/components/ui/toaster";
+import { useNotify } from "@/hooks/useNotify";
 import { FaLock } from "react-icons/fa";
 import { LuActivity } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +27,7 @@ export const UnlockInsightsButton = ({
   domainName: string;
 }) => {
   const { user } = useAuthContext();
+  const notify = useNotify();
   const insightsCredits = user?.user_settings?.premium_insights_api_calls || 0;
   const hasInsightCredits = insightsCredits > 0;
   const navigate = useNavigate();
@@ -37,13 +38,13 @@ export const UnlockInsightsButton = ({
     const { id } = await createDomainInsight(domainName);
     console.log({ id });
     if (id) {
-      navigate(`/insights/${id}`);
+      navigate(`/account/insights/${id}`);
     } else {
-      toaster.create({
-        title: "Failed to create domain insight",
-        description: "Please try again later",
-        type: "error",
-      });
+      notify(
+        "Failed to create domain insight",
+        "Please try again later",
+        "error"
+      );
     }
   };
 

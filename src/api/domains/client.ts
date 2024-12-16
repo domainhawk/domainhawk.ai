@@ -6,13 +6,14 @@ export type DomainCheckResponse = {
   uuid: string;
 };
 
-export type WatchedDomain = {
+export interface WatchedDomain {
   id: string;
   domain_name: string;
-  expiry_date: string;
   created_at: string;
   updated_at: string;
-};
+  expiry_date: string;
+  status: 'active' | 'expired';
+}
 
 export const domainCheck = async (
   domainName: string
