@@ -44,6 +44,7 @@ export default function WatchedById() {
         "success"
       );
       navigate("/account/watched");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: any) {
       notify("Error", "Failed to remove domain from watch list", "error");
     }
@@ -66,7 +67,7 @@ export default function WatchedById() {
     <Box maxW="container.md" mx="auto" p={6}>
       <Card.Root>
         <CardHeader>
-          <Heading size="lg">Watching {watchedDomain.domain_name}</Heading>
+          <Heading size="lg">{watchedDomain.domain_name}</Heading>
         </CardHeader>
 
         <CardBody>
