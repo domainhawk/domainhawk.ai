@@ -76,7 +76,7 @@ const DomainInfoTable = ({ domain }: { domain?: DomainDetails }) => {
             <TableRow label="Domain Name" value={domain.domain_name} />
             <TableRow
               label="Registration Status"
-              value={domain.domain_registered}
+              value={domain.domain_registered ? "Registered" : "Not Registered"}
             />
             <TableRow label="Created" value={domain.create_date} />
             <TableRow label="Updated" value={domain.update_date} />
