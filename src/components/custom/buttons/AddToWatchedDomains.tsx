@@ -10,7 +10,7 @@ export const AddToWatchedDomainsButton = ({
   expiryDate,
 }: {
   domainName: string;
-  expiryDate?: number;
+  expiryDate?: string;
 }) => {
   const { user } = useAuthContext();
   const expiringDomainsWatched =

@@ -59,7 +59,7 @@ export const UnlockInsightsButton = ({
         loadingText="Getting domain insights"
       >
         <LuActivity />
-        Get Domain Insights for {domainName} ({insightsCredits} remaining)
+        Get Domain Insights ({insightsCredits} remaining)
       </Button>
     );
   }

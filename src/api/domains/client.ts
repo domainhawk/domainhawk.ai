@@ -1,5 +1,6 @@
-import { WhoisResponse } from "@/types";
+import { DomainDetails } from "@/types";
 import instance from "..";
+import { AxiosResponse } from "axios";
 
 export type DomainCheckResponse = {
   uuid: string;
@@ -43,9 +44,8 @@ export const getWatchedDomains = async (): Promise<WatchedDomain[]> => {
   return res.data;
 };
 
-export const getDomainDetails = async (uuid: string): Promise<WhoisResponse> => {
-  const res = await instance.get(`/domain/details/${uuid}`);
-  return res.data;
+export const getDomainDetails = async (
+  uuid: string
+): Promise<AxiosResponse<DomainDetails>> => {
+  return instance.get(`/domain/details/${uuid}`);
 };
-
-

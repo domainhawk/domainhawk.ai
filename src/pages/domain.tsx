@@ -1,46 +1,20 @@
 import { useGetDomainDetails } from "@/api/domains/hooks";
 import { AddToWatchedDomainsButton } from "@/components/custom/buttons/AddToWatchedDomains";
 import { UnlockInsightsButton } from "@/components/custom/buttons/UnlockInsightsButton";
+import { DomainDetailsTables } from "@/components/custom/domain/DomainDetailsTables";
 import {
-  Box,
   Card,
   Container,
   Heading,
+  HStack,
   List,
   Spinner,
-  Table,
   Text,
   VStack,
-  HStack,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { LuCheck } from "react-icons/lu";
 import { useParams } from "react-router-dom";
-
-const DisplayRow = ({ label, value }: { label: string; value?: string }) => {
-  if (!value) return null;
-
-  return (
-    <Table.Row>
-      <Table.Cell
-        maxWidth="400px"
-        whiteSpace="nowrap"
-        overflow="hidden"
-        textOverflow="ellipsis"
-      >
-        {label}
-      </Table.Cell>
-      <Table.Cell
-        maxWidth="400px"
-        whiteSpace="nowrap"
-        overflow="hidden"
-        textOverflow="ellipsis"
-      >
-        {value}
-      </Table.Cell>
-    </Table.Row>
-  );
-};
 
 export const ListItemWithIcon = ({ children }: { children: ReactNode }) => {
   return (
@@ -65,10 +39,10 @@ export default function Domain() {
     );
   }
 
-  if (error || data?.error) {
+  if (error) {
     return (
       <Container centerContent py={10}>
-        <Text>{error?.message || data?.error}</Text>
+        <Text>{error?.message}</Text>
       </Container>
     );
   }
@@ -81,7 +55,7 @@ export default function Domain() {
     );
   }
 
-  // return ;
+  const domainDetails = data.data;
 
   return (
     <Container maxW="container.xl" py={[4, 6, 10]}>
@@ -96,33 +70,14 @@ export default function Domain() {
           <VStack gap={4} align="stretch" flex={2}>
             <AddToWatchedDomainsButton
               domainName={domainName!}
-              expiryDate={data.expiryDate}
+              expiryDate={domainDetails.expiry_date}
             />
 
-            <Card.Root>
-              <Card.Header>
-                <Heading size="md">Domain Info</Heading>
-              </Card.Header>
-              <Card.Body>
-                <Box overflowX="auto" maxWidth="100%">
-                  <Table.Root striped size="sm" style={{ minWidth: "100%" }}>
-                    <Table.Body>
-                      {data.result?.map((item, index) => (
-                        <DisplayRow
-                          key={`${index}-${item.attribute}`}
-                          label={item.attribute}
-                          value={item.value}
-                        />
-                      ))}
-                    </Table.Body>
-                  </Table.Root>
-                </Box>
-              </Card.Body>
-            </Card.Root>
+            <DomainDetailsTables data={domainDetails} />
 
             <AddToWatchedDomainsButton
               domainName={domainName!}
-              expiryDate={data.expiryDate}
+              expiryDate={domainDetails.expiry_date}
             />
           </VStack>
 
