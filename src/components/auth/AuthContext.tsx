@@ -7,7 +7,7 @@ const defaultContextProps = {
   isAuthenticated: false,
   isLoading: false,
   logout: () => Promise.resolve(),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // @ts-expect-error This is fine
   login: (props: any) => Promise.resolve(),
   user: undefined,
   gates: [],
