@@ -13,12 +13,9 @@ const globalCss = {
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    backdropFilter: "blur(20px)",
-    WebkitBackdropFilter: "blur(20px)",
+    backgroundAttachment: "fixed",
     _dark: {
       backgroundImage: "url('/images/dark.jpg')",
-      backdropFilter: "blur(20px)",
-      WebkitBackdropFilter: "blur(20px)",
     },
   },
 };

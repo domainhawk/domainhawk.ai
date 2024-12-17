@@ -93,7 +93,7 @@ export default function Signup() {
                   <Heading size="md" mb={4}>
                     Get Started Today with 3 free insights
                   </Heading>
-                  <ChakraLink to="/signup">
+                  <ChakraLink onClick={login}>
                     <Button colorScheme="blue" size="lg" width="100%" mb={2}>
                       Sign Up
                     </Button>
