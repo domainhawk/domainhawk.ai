@@ -1,16 +1,17 @@
-import { createBrowserRouter } from "react-router-dom";
-import SiteLayout from "@/layout";
-import Home from "@/pages/home";
-import Domain from "@/pages/domain";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import SiteLayout from "@/layout";
+import Domain from "@/pages/domain";
+import Home from "@/pages/home";
 import Watched from "@/pages/watched";
+import { createBrowserRouter } from "react-router-dom";
 import AccountMenu from "./components/AccountMenu";
-import AccountSettings from "./pages/account/settings";
-import Upgrade from "./pages/upgrade";
-import { InsightsById } from "./pages/insights/id";
 import Error from "./components/errors";
+import AccountSettings from "./pages/account/settings";
 import { Insights } from "./pages/insights";
+import { InsightsById } from "./pages/insights/id";
+import Upgrade from "./pages/upgrade";
 import WatchedById from "./pages/watched/id";
+import Signup from "./pages/signup";
 
 export const router = createBrowserRouter([
   {
@@ -20,23 +21,26 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        errorElement: <Error />,
+        element: <Home />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/upgrade",
+        element: <Upgrade />,
+      },
+      {
+        path: "/",
+        element: <ProtectedRoute />,
         children: [
-          {
-            path: "/",
-            element: <Home />,
-          },
           {
             path: "/domain/:domainName",
             element: <Domain />,
           },
           {
-            path: "/upgrade",
-            element: <Upgrade />,
-          },
-          {
             path: "/account",
-            element: <ProtectedRoute />,
             errorElement: <Error />,
             children: [
               {

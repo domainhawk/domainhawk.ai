@@ -1,6 +1,7 @@
 import FullPageSpinner from "@/components/custom/FullPageSpinner";
 import { Outlet } from "react-router-dom";
 import { useAuthContext } from "./auth/useAuthContext";
+import Signup from "@/pages/signup";
 
 export default function ProtectedRoute() {
   const { isLoading, isAuthenticated } = useAuthContext();
@@ -10,7 +11,7 @@ export default function ProtectedRoute() {
   }
 
   if (!isAuthenticated) {
-    throw new Error("Unauthorized");
+    return <Signup />;
   }
 
   return <Outlet />;

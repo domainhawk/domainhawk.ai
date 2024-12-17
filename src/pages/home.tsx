@@ -1,4 +1,5 @@
 import { useDomainCheck } from "@/api/domains/hooks";
+import { useAuthContext } from "@/components/auth/useAuthContext";
 import { Field as FormField } from "@/components/ui/field";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { isValidDomainName } from "@/utils/validators";
@@ -80,8 +81,14 @@ const InputControl = ({
 
 export const CreateWatchRequestForm = () => {
   const { mutateAsync: domainCheck, isPending, error } = useDomainCheck();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   const onSubmit = async (values: any) => {
+    if (!user) {
+      navigate("/signup");
+      return;
+    }
+
     const { domainName: domainNameFromCheck } = await domainCheck(
       values.domainName
     );

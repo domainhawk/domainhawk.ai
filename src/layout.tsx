@@ -24,7 +24,12 @@ const Header = () => {
 
 const LayerContainer = ({ children }: { children: React.ReactNode }) => {
   return (
-    <VStack w="full" maxW="100vw" overflow="hidden">
+    <VStack
+      w="full"
+      maxW="100vw"
+      overflow="hidden"
+      data-test-id="layer-container"
+    >
       <Helmet>
         <title>DomainHawk.ai</title>
       </Helmet>
