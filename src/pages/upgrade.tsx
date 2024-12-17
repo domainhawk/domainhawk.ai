@@ -1,6 +1,5 @@
 import {
   AbsoluteCenter,
-  Button,
   Group,
   Heading,
   HStack,
@@ -12,6 +11,24 @@ import {
 
 import { Card } from "@chakra-ui/react";
 import { ListItemWithIcon } from "./domain";
+import { useStripeCheckoutLink } from "@/api/payments/hooks";
+import { Button } from "@/components/ui/button";
+
+const UpgradeButton = () => {
+  const { mutateAsync: createCheckoutLink, isPending } =
+    useStripeCheckoutLink();
+
+  const handleClick = async () => {
+    const { url } = await createCheckoutLink();
+    window.open(url);
+  };
+
+  return (
+    <Button onClick={handleClick} loading={isPending} loadingText="Loading...">
+      Upgrade now
+    </Button>
+  );
+};
 
 const PricingCards = () => {
   return (
@@ -28,7 +45,7 @@ const PricingCards = () => {
           </List.Root>
         </Card.Body>
         <Card.Footer>
-          <Button>Upgrade now</Button>
+          <UpgradeButton />
         </Card.Footer>
       </Card.Root>
       <Card.Root scale={1.3} w="280px">
@@ -43,7 +60,7 @@ const PricingCards = () => {
           </List.Root>
         </Card.Body>
         <Card.Footer>
-          <Button>Upgrade now</Button>
+          <UpgradeButton />
         </Card.Footer>
       </Card.Root>
       <Card.Root w="280px">
