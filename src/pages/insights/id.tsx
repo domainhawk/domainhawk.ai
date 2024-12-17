@@ -1,4 +1,5 @@
 import { useGetDomainInsight } from "@/api/insights/hooks";
+import { useColorModeValue } from "@/components/ui/color-mode";
 import { StatRoot } from "@/components/ui/stat";
 import {
   Badge,
@@ -17,6 +18,14 @@ import {
 } from "@chakra-ui/react";
 import { LuCircleCheck, LuCircleX } from "react-icons/lu";
 import { useParams } from "react-router-dom";
+
+const Subtitle = () => {
+  return (
+    <Text color={useColorModeValue("gray.600", "gray.400")}>
+      Domain Insights and Analytics
+    </Text>
+  );
+};
 
 export const InsightsById = () => {
   const { id } = useParams();
@@ -52,7 +61,7 @@ export const InsightsById = () => {
           <Heading size="lg" mb={2}>
             {data.domain_name}
           </Heading>
-          <Text color="gray.600">Domain Insights and Analytics</Text>
+          <Subtitle />
         </Box>
 
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>

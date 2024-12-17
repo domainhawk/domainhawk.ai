@@ -15,7 +15,7 @@ export const Insights = () => {
   }
 
   return (
-    <VStack gap={4} align="stretch" p={4}>
+    <VStack gap={4} align="stretch" p={4} maxW="800px">
       <Text fontSize="2xl" fontWeight="bold">
         Domain Insights
       </Text>

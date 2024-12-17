@@ -1,6 +1,7 @@
 import { WatchedDomain } from "@/api/domains/client";
 import { useDeleteWatchedDomain } from "@/api/domains/hooks";
 import { Button } from "@/components/ui/button";
+import { toaster } from "@/components/ui/toaster";
 import { CreateWatchRequestForm } from "@/pages/home";
 import { formatDate } from "@/utils/date";
 import { HStack, Table, Text, VStack } from "@chakra-ui/react";
@@ -16,16 +17,19 @@ const TableRow = ({ domain }: TableRowProps) => {
     useDeleteWatchedDomain();
 
   const handleDelete = async (uuid: string) => {
+    const toastId = toaster.create({
+      title: "Deleting domain",
+      description: "This may take a few seconds",
+      type: "loading",
+    });
     await deleteWatchedDomain(uuid);
+    toaster.remove(toastId);
   };
 
   return (
     <Table.Row>
       <Table.Cell width="25%">{domain.domain_name}</Table.Cell>
-      <Table.Cell>{formatDate(domain.created_at)}</Table.Cell>
-      <Table.Cell>{formatDate(domain.updated_at)}</Table.Cell>
       <Table.Cell>{formatDate(domain.expiry_date)}</Table.Cell>
-      <Table.Cell>Active</Table.Cell>
       <Table.Cell>
         <HStack gap={2}>
           <Button
@@ -39,7 +43,7 @@ const TableRow = ({ domain }: TableRowProps) => {
             size="sm"
             variant="outline"
             loadingText="Deleting"
-            loading={isDeleting}
+            disabled={isDeleting}
             onClick={() => handleDelete(domain.id)}
           >
             Delete
@@ -54,8 +58,13 @@ export const WatchedTable = ({ domains }: { domains: WatchedDomain[] }) => {
   const hasNoDomains = domains.length === 0;
 
   return (
-    <VStack gap={4} align="stretch">
-      <CreateWatchRequestForm />
+    <VStack gap={4} align="stretch" maxW="800px">
+      <CreateWatchRequestForm
+        background="gray.50"
+        color="gray.500"
+        _placeholder={{ color: "gray.500" }}
+        maxW="450px"
+      />
       {hasNoDomains ? (
         <Text>No domains watched</Text>
       ) : (
@@ -63,10 +72,7 @@ export const WatchedTable = ({ domains }: { domains: WatchedDomain[] }) => {
           <Table.Header>
             <Table.Row>
               <Table.Cell>Domain</Table.Cell>
-              <Table.Cell>Created</Table.Cell>
-              <Table.Cell>Changed</Table.Cell>
-              <Table.Cell>Expires</Table.Cell>
-              <Table.Cell>Status</Table.Cell>
+              <Table.Cell flex={1}>Expires</Table.Cell>
               <Table.Cell>Actions</Table.Cell>
             </Table.Row>
           </Table.Header>

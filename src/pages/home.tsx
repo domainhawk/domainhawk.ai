@@ -8,6 +8,7 @@ import {
   Button,
   Group,
   Input,
+  InputProps,
   Spinner,
   Text,
   VStack,
@@ -38,6 +39,7 @@ const InputControl = ({
   buttonText,
   placeholder,
   error,
+  ...rest
 }: {
   name: string;
   label: string;
@@ -45,6 +47,7 @@ const InputControl = ({
   buttonText: string;
   placeholder?: string;
   error?: any;
+  [key: string]: any;
 }) => {
   const { input, meta } = useField(name, {
     validate: (value) =>
@@ -55,7 +58,12 @@ const InputControl = ({
   return (
     <FormField label={label} invalid={meta.error && meta.touched} w="full">
       <InputContainer>
-        <Input {...input} id={name} placeholder={placeholder || label} />
+        <Input
+          {...input}
+          id={name}
+          placeholder={placeholder || label}
+          {...rest}
+        />
         <Button
           type="submit"
           disabled={isLoading || meta.error}
@@ -79,7 +87,7 @@ const InputControl = ({
   );
 };
 
-export const CreateWatchRequestForm = () => {
+export const CreateWatchRequestForm = ({ ...rest }: InputProps) => {
   const { mutateAsync: domainCheck, isPending, error } = useDomainCheck();
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -108,6 +116,7 @@ export const CreateWatchRequestForm = () => {
               label="Watch a domain name"
               placeholder="example.com"
               buttonText={isPending ? "Checking..." : "Check domain"}
+              {...rest}
             />
           </VStack>
         </form>
